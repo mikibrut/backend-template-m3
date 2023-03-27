@@ -16,7 +16,7 @@ const placeSchema = new Schema({
  },
  type: {
     type: String,
-    enum: ['venue', 'rehearsal rooms', 'recording studio', 'music-bar', 'other'],
+    enum: ['venue', 'concert hall', 'rehearsal rooms', 'recording studio', 'music-bar', 'other'],
     required: true
  },
  creator:{

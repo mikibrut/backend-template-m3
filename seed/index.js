@@ -5,6 +5,7 @@ const User = require('../models/User');
 const Band = require('../models/Band');
 const Advert = require('../models/Advert');
 const Mate = require('../models/Mate');
+const Place = require('../models/Place')
 
 const users = [
   {
@@ -59,10 +60,20 @@ const mates = [
   musicalInstrument: "guitar"
 }
 ]
+
+const places = [
+{
+  placeName: "rock-sound",
+  description: "the noissiest place in poblenou. beers and rock and roll til 3am",
+  image: "https://www.mondosonoro.com/wp-content/uploads/2020/09/Rocksound.jpg",
+  type: "music-bar",
+  creator: "641ee0484466751559b339d1"
+}
+]
 mongoose.connect(process.env.MONGO_URL)
   .then(x => console.log(`Connected to ${x.connection.name}`))
   .then(() => {
-    return Mate.create(mates)
+    return Place.create(places)
   })
   .then(() => {
     console.log('Seed done 🌱');
