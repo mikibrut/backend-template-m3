@@ -8,7 +8,6 @@ const Mate = require('../models/Mate');
 router.get('/', async function (req, res, next) {
     try {
       const mates = await Mate.find({})
-      .populate("user")
       res.status(200).json(mates);
     } catch (error) {
       next(error)

@@ -11,23 +11,23 @@ const mateSchema = new Schema({
         type: String,
         enum: ['musician', 'sound technician', 'manager', 'producer', 'sound engineer', 'light technician', 'film maker'],
         default: 'musician'
-      },
-      image: {
+    },
+    image: {
         type: String
-      },
-      genre:{
+    },
+    genre:{
         type: String,
         enum: ['female', 'male', 'other'],
-      },
-      musicalGenre:{
+    },
+    musicalGenre:{
         type: String,
         enum: ['rock', 'pop', 'hip hop', 'jazz', 'blues', 'country', 'classical', 'metal', 'folk', 'electronic', 'reggae', 'latin', 'world', 'other'],
         default: 'other'
-      },
-      musicalInstrument:{
+    },
+    musicalInstrument:{
         type: String,
         enum: ['guitar', 'bass', 'drums', 'brass', 'strings', 'voice', 'piano', 'synth', 'folkloric', 'percussion', 'other']
-      }
+    }
     },
       {
         timestamps: true
