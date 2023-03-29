@@ -3,6 +3,11 @@ const { Schema, model } = mongoose;
 
 
 const placeSchema = new Schema({
+ creator:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+ },
  placeName:{
     type: String,
     required: true
@@ -15,13 +20,8 @@ const placeSchema = new Schema({
     type: String
  },
  type: {
-    type: String,
+    type: [String],
     enum: ['venue', 'concert hall', 'rehearsal rooms', 'recording studio', 'music-bar', 'other'],
-    required: true
- },
- creator:{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
     required: true
  }
 },

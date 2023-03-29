@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const Advert = require('../models/Advert');
+const {isAuthenticated} = require('../middlewares/jwt')
 
 
-/* GET all ADVERTS */
- /* ROUTE /adverts */
-
+    /* GET all ADVERTS */
+    /* ROUTE /adverts */
+    /* TESTED ON POSTMAN - WORKING */
  router.get('/', async function (req, res, next) {
     try {
       const adverts = await Advert.find({})
@@ -17,6 +18,7 @@ const Advert = require('../models/Advert');
 
     /* GET one ADVERTS */
     /* ROUTE /adverts/:advertId */
+    /* TESTED ON POSTMAN - WORKING */
 router.get('/:advertId', async function (req, res, next) {
     const { advertId } = req.params;
     try {
@@ -29,9 +31,13 @@ router.get('/:advertId', async function (req, res, next) {
 
     /* POST create new ADVERT */
     /* ROUTE /adverts */
-router.post('/', async function (req, res, next) {
+    /* TESTED ON POSTMAN - WORKING */
+router.post('/', isAuthenticated, async function (req, res, next) {
+    const { title, message, type} = req.body;
+    const creator = req.payload._id;
+
     try {
-      const createdAdvert = await Advert.create(req.body);
+      const createdAdvert = await Advert.create({title, message, type, creator: creator});
       res.status(200).json(createdAdvert);
     } catch (error) {
       next(error)
@@ -40,23 +46,37 @@ router.post('/', async function (req, res, next) {
 
     /* PUT edit ADVERT */
     /* ROUTE /adverts/:advertId */
-
-router.put('/:advertId', async function (req, res, next) {
+    /* TESTED ON POSTMAN - WORKING */
+router.put('/:advertId', isAuthenticated, async function (req, res, next) {
     const { advertId } = req.params;
-        try {
-          await Advert.findByIdAndUpdate(advertId, req.body, {new: true});
-          res.redirect(`/adverts/${advertId}`);
-        } catch (error) {
-          next(error)
+    const creator = req.payload._id;
+    try {
+        const advert = await Advert.findById(advertId)
+
+        if(advert.creator.toString() !== creator) {
+          return res.status(401).json({message: 'Not authorized to edit this Advert'});
         }
-      });
+
+        const updated = await Advert.findByIdAndUpdate(advertId, req.body, {new: true});
+        res.status(201).json(updated);
+      } catch (error) {
+        next(error)
+      }
+    });
 
     /* DELETE delete ADVERT */
     /* ROUTE /adverts/:advertId */
-
-router.delete('/:advertId', async function (req, res, next){
+    /* TESTED ON POSTMAN - WORKING */
+router.delete('/:advertId',  isAuthenticated, async function (req, res, next){
     const { advertId } = req.params;
+    const creator = req.payload._id;
     try {
+        const advert = await Advert.findById(advertId);
+
+        if(advert.creator.toString() !== creator){
+          return res.status(401).json({ message: 'Not authorized to delete this Advert' });
+        }
+
         const deletedAdvert = await Advert.findByIdAndDelete(advertId)
         res.status(201).json(deletedAdvert)
     } catch (error) {

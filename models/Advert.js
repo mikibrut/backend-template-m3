@@ -2,18 +2,22 @@ const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
 const advertSchema = new Schema({
-  band: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Band',
-    required: true
-  },
-  user: {
+  creator: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
   },
+  title:{
+    type: String,
+    required: true
+  },
   message: {
     type: String,
+    required: true
+  },
+  type:{
+    type: String,
+    enum: ['mate looking for mate', 'mate looking for band','mate looking for place', 'band looking for band', 'band looking for mate', 'band looking for place', 'place looking for band'],
     required: true
   },
   createdAt: {

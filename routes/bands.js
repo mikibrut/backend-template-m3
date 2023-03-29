@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const Band = require('../models/Band');
+const {isAuthenticated} = require('../middlewares/jwt')
 
-/* GET all BANDS */
+ /* GET all BANDS */
  /* ROUTE /bands */
-
+ /* TESTED ON POSTMAN - WORKING */
  router.get('/', async function (req, res, next) {
     try {
       const bands = await Band.find({})
-      .populate("members")
       res.status(200).json(bands);
     } catch (error) {
       next(error)
@@ -17,10 +17,11 @@ const Band = require('../models/Band');
 
     /* GET one BANDS */
     /* ROUTE /bands/:bandId */
+    /* TESTED ON POSTMAN - WORKING */
 router.get('/:bandId', async function (req, res, next) {
     const { bandId } = req.params;
     try {
-      const band = await Band.findById(bandId);
+      const band = await Band.findById(bandId).populate('creator');
       res.status(200).json(band);
     } catch (error) {
       next(error)
@@ -29,9 +30,13 @@ router.get('/:bandId', async function (req, res, next) {
 
     /* POST create new BAND */
     /* ROUTE /bands */
-router.post('/', async function (req, res, next) {
+    /* TESTED ON POSTMAN - WORKING */
+router.post('/', isAuthenticated, async function (req, res, next) {
+    const { bandName, bio, image, musicalGenre } = req.body;
+    const creator = req.payload._id;
+
     try {
-      const createdBand = await Band.create(req.body);
+      const createdBand = await Band.create({ bandName, bio, image, musicalGenre, creator: creator});
       res.status(200).json(createdBand);
     } catch (error) {
       next(error)
@@ -40,12 +45,20 @@ router.post('/', async function (req, res, next) {
 
     /* PUT edit BAND */
     /* ROUTE /bands/:bandId */
-
-router.put('/:bandId', async function (req, res, next) {
+    /* TESTED ON POSTMAN - WORKING */
+router.put('/:bandId', isAuthenticated, async function (req, res, next) {
     const { bandId } = req.params;
-        try {
-          await Band.findByIdAndUpdate(bandId, req.body, {new: true});
-          res.redirect(`/bands/${bandId}`);
+    const creator = req.payload._id;
+    try {
+        const band = await Band.findById(bandId);
+
+        if(band.creator.toString() !== creator) {
+            return res.status(401).json({ message: 'Not authorized to edit this Band' });
+        }
+         
+        const updated = await Band.findByIdAndUpdate(bandId, req.body, {new: true});
+          
+        res.status(201).json(updated);
         } catch (error) {
           next(error)
         }
@@ -53,10 +66,17 @@ router.put('/:bandId', async function (req, res, next) {
 
     /* DELETE delete BAND */
     /* ROUTE /bands/:bandId */
-
-router.delete('/:bandId', async function (req, res, next){
+    /* TESTED ON POSTMAN - WORKING */
+router.delete('/:bandId', isAuthenticated, async function (req, res, next){
     const { bandId } = req.params;
+    const creator = req.payload._id;
     try {
+        const band = await Band.findById(bandId);
+
+        if(band.creator.toString() !== creator) {
+            return res.status(401).json({ message: 'Not authorized to delete this Band' });
+        }
+
         const deletedBand = await Band.findByIdAndDelete(bandId)
         res.status(201).json(deletedBand)
     } catch (error) {
