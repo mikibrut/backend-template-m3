@@ -9,7 +9,7 @@ const { isAuthenticated } = require('../middlewares/jwt');
  /* TESTED ON POSTMAN - WORKING */
 router.get('/', async function (req, res, next) {
     try {
-      const mates = await Mate.find({})
+      const mates = await Mate.find({}).populate('creator');
       res.status(200).json(mates);
     } catch (error) {
       next(error)
