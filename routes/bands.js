@@ -8,7 +8,7 @@ const {isAuthenticated} = require('../middlewares/jwt')
  /* TESTED ON POSTMAN - WORKING */
  router.get('/', async function (req, res, next) {
     try {
-      const bands = await Band.find({})
+      const bands = await Band.find({}).populate('creator');
       res.status(200).json(bands);
     } catch (error) {
       next(error)

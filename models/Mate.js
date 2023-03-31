@@ -26,7 +26,7 @@ const mateSchema = new Schema({
     },
     musicalInstrument:{
         type: [String],
-        enum: ['guitar', 'bass', 'drums', 'brass', 'strings', 'voice', 'piano', 'synth', 'folkloric', 'percussion', 'other']
+        enum: ['guitar', 'bass', 'drums', 'brass', 'strings', 'voice', 'piano', 'synth', 'folkloric', 'percussion', 'keys', 'other']
     }
     },
       {
