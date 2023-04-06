@@ -3,10 +3,10 @@ const router = express.Router();
 const Mate = require('../models/Mate');
 const { isAuthenticated } = require('../middlewares/jwt');
 
- /* GET all MATES */
- /* ROUTE /mates */
- /* Public */
- /* TESTED ON POSTMAN - WORKING */
+    /* GET all MATES */
+    /* ROUTE /mates */
+    /* Public */
+    /* TESTED ON POSTMAN - WORKING */
 router.get('/', async function (req, res, next) {
     try {
       const mates = await Mate.find({}).populate('creator');
@@ -29,10 +29,23 @@ router.get('/:mateId',  async function (req, res, next) {
     }
   });
 
-    /* POST create new MATE */
-    /* ROUTE /mates */
+      /* GET one MATE */
+    /* ROUTE /mates/:mateId */
     /* TESTED ON POSTMAN - WORKING */
-router.post('/', isAuthenticated, async function (req, res, next) {
+router.get('/creator/:creatorId',  isAuthenticated, async function (req, res, next) {
+  const creator = req.params.creatorId;
+  try {
+    const mates = await Mate.find({ creator: creator });
+    res.status(200).json(mates);
+  } catch (error) {
+    next(error)
+  }
+});
+
+    /* POST create new MATE */
+    /* ROUTE /mates/create */
+    /* TESTED ON POSTMAN - WORKING */
+router.post('/create', isAuthenticated, async function (req, res, next) {
     const { type, image, genre, musicalGenre, musicalInstrument} = req.body;
     const creator = req.payload._id;
     
@@ -45,9 +58,10 @@ router.post('/', isAuthenticated, async function (req, res, next) {
   });
 
     /* PUT edit MATE */
-    /* ROUTE /mates/:showId */
+    /* ROUTE /mates/edit/:mateId */
     /* TESTED ON POSTMAN - WORKING */
-router.put('/:mateId', isAuthenticated, async function (req, res, next) {
+router.put('/edit/:mateId', isAuthenticated, async function (req, res, next) {
+  console.log('Backend in')
     const { mateId } = req.params;
     const creator = req.payload._id;
     try {

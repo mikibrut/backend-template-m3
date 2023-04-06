@@ -3,12 +3,13 @@ const router = express.Router();
 const Place = require('../models/Place');
 const { isAuthenticated } = require('../middlewares/jwt');
 
-    /* GET all PLACES */
-    /* ROUTE /places */
-    /* Public *//* TESTED ON POSTMAN - WORKING */
+    /* GET all MATES */
+    /* ROUTE /mates */
+    /* Public */
+    /* TESTED ON POSTMAN - WORKING */
  router.get('/', async function (req, res, next) {
     try {
-      const places = await Place.find({})
+      const places = await Place.find({}).populate('creator');
       res.status(200).json(places);
     } catch (error) {
       next(error)

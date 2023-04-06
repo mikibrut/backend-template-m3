@@ -21,7 +21,7 @@ const bandSchema = new Schema({
  },
  musicalGenre: {
     type: [String],
-    enum: ['rock', 'pop', 'funk', 'hip hop', 'jazz', 'blues', 'fusion', 'country', 'classical', 'metal', 'folk', 'electronic', 'reggae', 'latin', 'world', 'other'],
+    enum: ['rock', 'fusion', 'flamenco', 'pop', 'hip hop', 'jazz', 'blues', 'country', 'classical', 'metal', 'folk', 'electronic', 'reggae', 'latin', 'world', 'other'],
     default: 'other',
     required: true
  }

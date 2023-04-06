@@ -3,12 +3,14 @@ const router = express.Router();
 const Band = require('../models/Band');
 const {isAuthenticated} = require('../middlewares/jwt')
 
- /* GET all BANDS */
- /* ROUTE /bands */
- /* TESTED ON POSTMAN - WORKING */
+ /* GET all MATES */
+    /* ROUTE /mates */
+    /* Public */
+    /* TESTED ON POSTMAN - WORKING */
  router.get('/', async function (req, res, next) {
     try {
-      const bands = await Band.find({}).populate('creator');
+      const bands = await Band.find({})
+        .populate('creator');
       res.status(200).json(bands);
     } catch (error) {
       next(error)
@@ -21,7 +23,8 @@ const {isAuthenticated} = require('../middlewares/jwt')
 router.get('/:bandId', async function (req, res, next) {
     const { bandId } = req.params;
     try {
-      const band = await Band.findById(bandId).populate('creator');
+      const band = await Band.findById(bandId)
+        .populate('creator')
       res.status(200).json(band);
     } catch (error) {
       next(error)
@@ -31,7 +34,7 @@ router.get('/:bandId', async function (req, res, next) {
     /* POST create new BAND */
     /* ROUTE /bands */
     /* TESTED ON POSTMAN - WORKING */
-router.post('/', isAuthenticated, async function (req, res, next) {
+router.post('/create', isAuthenticated, async function (req, res, next) {
     const { bandName, bio, image, musicalGenre } = req.body;
     const creator = req.payload._id;
 
@@ -46,7 +49,7 @@ router.post('/', isAuthenticated, async function (req, res, next) {
     /* PUT edit BAND */
     /* ROUTE /bands/:bandId */
     /* TESTED ON POSTMAN - WORKING */
-router.put('/:bandId', isAuthenticated, async function (req, res, next) {
+router.put('/edit/:bandId', isAuthenticated, async function (req, res, next) {
     const { bandId } = req.params;
     const creator = req.payload._id;
     try {

@@ -9,7 +9,7 @@ const mateSchema = new Schema({
     },
     type: {
         type: [String],
-        enum: ['musician', 'sound technician', 'manager', 'producer', 'sound engineer', 'light technician', 'film maker'],
+        enum: ['musician', 'sound technician', 'manager', 'producer', 'sound engineer', 'light technician'],
         default: 'musician'
     },
     image: {

@@ -4,12 +4,13 @@ const Advert = require('../models/Advert');
 const {isAuthenticated} = require('../middlewares/jwt')
 
 
-    /* GET all ADVERTS */
-    /* ROUTE /adverts */
+    /* GET all MATES */
+    /* ROUTE /mates */
+    /* Public */
     /* TESTED ON POSTMAN - WORKING */
  router.get('/', async function (req, res, next) {
     try {
-      const adverts = await Advert.find({})
+      const adverts = await Advert.find({}).populate('creator');
       res.status(200).json(adverts);
     } catch (error) {
       next(error)
@@ -22,7 +23,7 @@ const {isAuthenticated} = require('../middlewares/jwt')
 router.get('/:advertId', async function (req, res, next) {
     const { advertId } = req.params;
     try {
-      const advert = await Advert.findById(advertId);
+      const advert = await Advert.findById(advertId).populate('creator');
       res.status(200).json(advert);
     } catch (error) {
       next(error)
