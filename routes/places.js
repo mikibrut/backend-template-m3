@@ -3,8 +3,8 @@ const router = express.Router();
 const Place = require('../models/Place');
 const { isAuthenticated } = require('../middlewares/jwt');
 
-    /* GET all MATES */
-    /* ROUTE /mates */
+    /* GET all PLACES */
+    /* ROUTE /places */
     /* Public */
     /* TESTED ON POSTMAN - WORKING */
  router.get('/', async function (req, res, next) {
@@ -29,15 +29,28 @@ router.get('/:placeId', async function (req, res, next) {
     }
   });
 
-    /* POST create new PLACE */
-    /* ROUTE /places */
+    /* GET place creator */
+    /* ROUTE /places/creator/:creatorId */
     /* TESTED ON POSTMAN - WORKING */
-router.post('/', isAuthenticated, async function (req, res, next) {
-    const { placeName, description, image, type} = req.body;
+router.get('/creator/:creatorId',  isAuthenticated, async function (req, res, next) {
+  const creator = req.params.creatorId;
+  try {
+    const places = await Place.find({ creator: creator }).populate('creator');
+    res.status(200).json(places);
+  } catch (error) {
+    next(error)
+  }
+});
+
+    /* POST create new PLACE */
+    /* ROUTE /places/create */
+    /* TESTED ON POSTMAN - WORKING */
+router.post('/create', isAuthenticated, async function (req, res, next) {
+    const { placeName, description, image, type, location} = req.body;
     const creator = req.payload._id;
 
     try {
-      const createdPlace = await Place.create({placeName, description, image, type, creator: creator});
+      const createdPlace = await Place.create({placeName, description, image, type, location, creator: creator});
       res.status(200).json(createdPlace);
     } catch (error) {
       next(error)
@@ -45,9 +58,9 @@ router.post('/', isAuthenticated, async function (req, res, next) {
   });
 
     /* PUT edit PLACE */
-    /* ROUTE /places/:placeId */
+    /* ROUTE /places/edit/:placeId */
 
-router.put('/:placeId', isAuthenticated, async function (req, res, next) {
+router.put('/edit/:placeId', isAuthenticated, async function (req, res, next) {
     const { placeId } = req.params;
     const creator = req.payload._id;
     try {

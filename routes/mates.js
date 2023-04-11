@@ -29,13 +29,13 @@ router.get('/:mateId',  async function (req, res, next) {
     }
   });
 
-      /* GET one MATE */
-    /* ROUTE /mates/:mateId */
+    /* GET creator's MATE */
+    /* ROUTE /mates/creator/:creatorId */
     /* TESTED ON POSTMAN - WORKING */
 router.get('/creator/:creatorId',  isAuthenticated, async function (req, res, next) {
   const creator = req.params.creatorId;
   try {
-    const mates = await Mate.find({ creator: creator });
+    const mates = await Mate.find({ creator: creator }).populate('creator');;
     res.status(200).json(mates);
   } catch (error) {
     next(error)
@@ -46,11 +46,11 @@ router.get('/creator/:creatorId',  isAuthenticated, async function (req, res, ne
     /* ROUTE /mates/create */
     /* TESTED ON POSTMAN - WORKING */
 router.post('/create', isAuthenticated, async function (req, res, next) {
-    const { type, image, genre, musicalGenre, musicalInstrument} = req.body;
+    const { type, image, genre, musicalGenre, musicalInstrument, location} = req.body;
     const creator = req.payload._id;
     
     try {
-      const createdMate = await Mate.create({type, image, genre, musicalGenre, musicalInstrument, creator: creator});
+      const createdMate = await Mate.create({type, image, genre, musicalGenre, musicalInstrument, location, creator: creator});
       res.status(200).json(createdMate);
     } catch (error) {
       next(error)

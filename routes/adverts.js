@@ -31,14 +31,14 @@ router.get('/:advertId', async function (req, res, next) {
   });
 
     /* POST create new ADVERT */
-    /* ROUTE /adverts */
+    /* ROUTE /adverts/create */
     /* TESTED ON POSTMAN - WORKING */
-router.post('/', isAuthenticated, async function (req, res, next) {
-    const { title, message, type} = req.body;
+router.post('/create', isAuthenticated, async function (req, res, next) {
+    const { title, message, type, location} = req.body;
     const creator = req.payload._id;
 
     try {
-      const createdAdvert = await Advert.create({title, message, type, creator: creator});
+      const createdAdvert = await Advert.create({title, message, type, location, creator: creator});
       res.status(200).json(createdAdvert);
     } catch (error) {
       next(error)
@@ -46,9 +46,9 @@ router.post('/', isAuthenticated, async function (req, res, next) {
   });
 
     /* PUT edit ADVERT */
-    /* ROUTE /adverts/:advertId */
+    /* ROUTE /adverts/edit/:advertId */
     /* TESTED ON POSTMAN - WORKING */
-router.put('/:advertId', isAuthenticated, async function (req, res, next) {
+router.put('/edit/:advertId', isAuthenticated, async function (req, res, next) {
     const { advertId } = req.params;
     const creator = req.payload._id;
     try {

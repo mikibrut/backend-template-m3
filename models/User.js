@@ -15,14 +15,15 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  role: {
-    type: String,
-    enum: ['user', 'admin'],
-    default: 'user'
-  }
+  // userRole: {
+  //   type: [String],
+  //   enum: ['Mate', 'Band', 'Place'],
+  //   default: []
+  // },
 },
-  {
-    timestamps: true
-  });
+{
+  timestamps: true
+});
+
 
 module.exports = model("User", userSchema);

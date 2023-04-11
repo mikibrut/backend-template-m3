@@ -31,15 +31,29 @@ router.get('/:bandId', async function (req, res, next) {
     }
   });
 
+    /* GET creator's BAND */
+    /* ROUTE /bands/creator/:creatorId */
+    /* TESTED ON POSTMAN - WORKING */
+router.get('/creator/:creatorId',  isAuthenticated, async function (req, res, next) {
+  const creator = req.params.creatorId;
+  try {
+    const bands = await Band.find({ creator: creator }).populate('creator');
+    res.status(200).json(bands);
+  } catch (error) {
+    next(error)
+  }
+});
+
+
     /* POST create new BAND */
-    /* ROUTE /bands */
+    /* ROUTE /bands/create */
     /* TESTED ON POSTMAN - WORKING */
 router.post('/create', isAuthenticated, async function (req, res, next) {
-    const { bandName, bio, image, musicalGenre } = req.body;
+    const { bandName, bio, image, musicalGenre, location } = req.body;
     const creator = req.payload._id;
 
     try {
-      const createdBand = await Band.create({ bandName, bio, image, musicalGenre, creator: creator});
+      const createdBand = await Band.create({ bandName, bio, image, musicalGenre, location, creator: creator});
       res.status(200).json(createdBand);
     } catch (error) {
       next(error)
@@ -47,7 +61,7 @@ router.post('/create', isAuthenticated, async function (req, res, next) {
   });
 
     /* PUT edit BAND */
-    /* ROUTE /bands/:bandId */
+    /* ROUTE /bands/edit/:bandId */
     /* TESTED ON POSTMAN - WORKING */
 router.put('/edit/:bandId', isAuthenticated, async function (req, res, next) {
     const { bandId } = req.params;

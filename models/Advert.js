@@ -17,13 +17,17 @@ const advertSchema = new Schema({
   },
   type:{
     type: String,
-    enum: ['mate looking for mate', 'mate looking for band','mate looking for place', 'band looking for band', 'band looking for mate', 'band looking for place', 'place looking for band'],
+    enum: ['mate looking for mate', 'mate looking for band','mate looking for place', 'band looking for band', 'band looking for mate', 'band looking for place', 'place looking for band', 'place looking for mate'],
+    required: true
+  },
+  location: {
+    type: String,
     required: true
   },
   createdAt: {
     type: Date,
     default: Date.now
-}
+  }
 },
     {
       timestamps: true

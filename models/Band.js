@@ -24,12 +24,11 @@ const bandSchema = new Schema({
     enum: ['rock', 'fusion', 'flamenco', 'pop', 'hip hop', 'jazz', 'blues', 'country', 'classical', 'metal', 'folk', 'electronic', 'reggae', 'latin', 'world', 'other'],
     default: 'other',
     required: true
+ },
+ location: {
+   type: String,
+   required: true
  }
-//  members:{
-//     type: [mongoose.Schema.Types.ObjectId],
-//     ref: 'User',
-//     required: true
-//  }
  },
     {
       timestamps: true

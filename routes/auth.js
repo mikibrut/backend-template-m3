@@ -2,6 +2,7 @@ const router = require('express').Router();
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
+const secretKey = 'mySecretKey';
 const { isAuthenticated, isAdmin } = require('../middlewares/jwt');
 const saltRounds = 10;
 
@@ -99,5 +100,19 @@ router.get('/me', isAuthenticated, (req, res, next) => {
   // previously set as the token payload
   res.status(200).json(req.payload);
 })
+
+  router.patch('/addUserRole/:userId', isAuthenticated, async (req, res) => {
+    const { userId } = req.params;
+    const { userRole } = req.body;
+  
+    User.findByIdAndUpdate(userId, { userRole }, { new: true })
+      .then(updatedUser => {
+        res.status(200).json(updatedUser);
+      })
+      .catch(error => {
+        res.status(500).json({ error: 'Unable to update user role' });
+      });
+  });
+
 
 module.exports = router;

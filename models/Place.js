@@ -23,6 +23,10 @@ const placeSchema = new Schema({
     type: [String],
     enum: ['venue', 'concert hall', 'rehearsal rooms', 'recording studio', 'music-bar', 'other'],
     required: true
+ },
+ location: {
+   type: String,
+   required: true
  }
 },
     {
