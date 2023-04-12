@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Place = require('../models/Place');
 const { isAuthenticated } = require('../middlewares/jwt');
+const fileUploader = require("../config/cloudinary.config");
 
     /* GET all PLACES */
     /* ROUTE /places */
@@ -57,6 +58,21 @@ router.post('/create', isAuthenticated, async function (req, res, next) {
     }
   });
 
+  router.post('/upload', isAuthenticated, fileUploader.single('image'), (req, res, next) => {
+    // console.log("file is: ", req.file)
+   
+    if (!req.file) {
+      next(new Error('No file uploaded!'));
+      return;
+    }
+    
+    // Get the URL of the uploaded file and send it as a response.
+    // 'fileUrl' can be any name, just make sure you remember to use the same when accessing it on the frontend
+    
+    res.json({ fileUrl: req.file.path });
+  });
+
+  
     /* PUT edit PLACE */
     /* ROUTE /places/edit/:placeId */
 

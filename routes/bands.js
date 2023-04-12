@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Band = require('../models/Band');
 const {isAuthenticated} = require('../middlewares/jwt')
+const fileUploader = require("../config/cloudinary.config");
 
  /* GET all MATES */
     /* ROUTE /mates */
@@ -29,6 +30,20 @@ router.get('/:bandId', async function (req, res, next) {
     } catch (error) {
       next(error)
     }
+  });
+
+  router.post('/upload', isAuthenticated, fileUploader.single('image'), (req, res, next) => {
+    // console.log("file is: ", req.file)
+   
+    if (!req.file) {
+      next(new Error('No file uploaded!'));
+      return;
+    }
+    
+    // Get the URL of the uploaded file and send it as a response.
+    // 'fileUrl' can be any name, just make sure you remember to use the same when accessing it on the frontend
+    
+    res.json({ fileUrl: req.file.path });
   });
 
     /* GET creator's BAND */
@@ -60,6 +75,7 @@ router.post('/create', isAuthenticated, async function (req, res, next) {
     }
   });
 
+  
     /* PUT edit BAND */
     /* ROUTE /bands/edit/:bandId */
     /* TESTED ON POSTMAN - WORKING */

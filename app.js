@@ -18,6 +18,7 @@ const app = express();
 
 // cookies and loggers
 app.use(cors({
+  credentials: true,
   origin: process.env.ORIGIN
 }));
 app.set('trust proxy', 1);
