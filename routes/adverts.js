@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Advert = require('../models/Advert');
+const Comment = require('../models/Comment');
 const {isAuthenticated} = require('../middlewares/jwt')
 
 
@@ -84,6 +85,9 @@ router.delete('/:advertId',  isAuthenticated, async function (req, res, next){
         next(error)
     }
 })
+
+
+/*--COMMENTSS---*/
 
 
 

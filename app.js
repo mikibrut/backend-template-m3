@@ -12,7 +12,8 @@ const profilesRouter = require('./routes/profiles');
 const matesRouter = require('./routes/mates');
 const bandsRouter = require('./routes/bands');
 const advertsRouter = require('./routes/adverts');
-const placesRouter = require('./routes/places')
+const placesRouter = require('./routes/places');
+const commentsRouter = require('./routes/comments');
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use('/mates', matesRouter);
 app.use('/bands', bandsRouter);
 app.use('/adverts', advertsRouter);
 app.use('/places', placesRouter);
+app.use('/comments', commentsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
