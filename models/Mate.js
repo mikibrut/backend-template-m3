@@ -17,7 +17,6 @@ const mateSchema = new Schema({
     },
     genre:{
         type: String,
-        enum: ['female', 'male', 'other'],
     },
     musicalGenre:{
         type: [String],

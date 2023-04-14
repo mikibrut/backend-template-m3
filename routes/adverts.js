@@ -90,5 +90,21 @@ router.delete('/:advertId',  isAuthenticated, async function (req, res, next){
 /*--COMMENTSS---*/
 
 
+/* POST create new comment for an Advert */
+  /* ROUTE /comments/create */
+  /* TESTED ON POSTMAN - WORKING */
+  router.post('/:advertId/comments/create', isAuthenticated, async function (req, res, next) {
+    const { advertId } = req.params;
+    const { title, text } = req.body;
+    const creator = req.payload._id;
+  
+    try {
+      const createdComment = await Comment.create({ title, text, creator: creator, advert: advertId });
+      res.status(200).json(createdComment);
+    } catch (error) {
+      next(error);
+    }
+  });
+
 
 module.exports = router;
