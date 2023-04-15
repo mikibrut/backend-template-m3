@@ -64,11 +64,11 @@ router.get('/creator/:creatorId',  isAuthenticated, async function (req, res, ne
     /* ROUTE /bands/create */
     /* TESTED ON POSTMAN - WORKING */
 router.post('/create', isAuthenticated, async function (req, res, next) {
-    const { bandName, bio, image, musicalGenre, location } = req.body;
+    const { bandName, bio, image, musicalGenre, location, links } = req.body;
     const creator = req.payload._id;
 
     try {
-      const createdBand = await Band.create({ bandName, bio, image, musicalGenre, location, creator: creator});
+      const createdBand = await Band.create({ bandName, bio, image, musicalGenre, location, links, creator: creator});
       res.status(200).json(createdBand);
     } catch (error) {
       next(error)
@@ -81,6 +81,7 @@ router.post('/create', isAuthenticated, async function (req, res, next) {
     /* TESTED ON POSTMAN - WORKING */
 router.put('/edit/:bandId', isAuthenticated, async function (req, res, next) {
     const { bandId } = req.params;
+    const { bandName, bio, image, musicalGenre, location, links } = req.body;
     const creator = req.payload._id;
     try {
         const band = await Band.findById(bandId);
@@ -89,7 +90,7 @@ router.put('/edit/:bandId', isAuthenticated, async function (req, res, next) {
             return res.status(401).json({ message: 'Not authorized to edit this Band' });
         }
          
-        const updated = await Band.findByIdAndUpdate(bandId, req.body, {new: true});
+        const updated = await Band.findByIdAndUpdate(bandId, { bandName, bio, image, musicalGenre, location, links }, {new: true});
           
         res.status(201).json(updated);
         } catch (error) {

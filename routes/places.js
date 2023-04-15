@@ -47,11 +47,11 @@ router.get('/creator/:creatorId',  isAuthenticated, async function (req, res, ne
     /* ROUTE /places/create */
     /* TESTED ON POSTMAN - WORKING */
 router.post('/create', isAuthenticated, async function (req, res, next) {
-    const { placeName, description, image, type, location} = req.body;
+    const { placeName, description, image, type, location, links} = req.body;
     const creator = req.payload._id;
 
     try {
-      const createdPlace = await Place.create({placeName, description, image, type, location, creator: creator});
+      const createdPlace = await Place.create({placeName, description, image, type, location, links, creator: creator});
       res.status(200).json(createdPlace);
     } catch (error) {
       next(error)
@@ -78,6 +78,7 @@ router.post('/create', isAuthenticated, async function (req, res, next) {
 
 router.put('/edit/:placeId', isAuthenticated, async function (req, res, next) {
     const { placeId } = req.params;
+    const { placeName, description, image, type, location, links} = req.body;
     const creator = req.payload._id;
     try {
         const place = await Place.findById(placeId);
@@ -86,7 +87,7 @@ router.put('/edit/:placeId', isAuthenticated, async function (req, res, next) {
           return res.status(401).json({message: 'Not authorized to edit this Place'})
         }
         
-        const updated = await Place.findByIdAndUpdate(placeId, req.body, {new: true});
+        const updated = await Place.findByIdAndUpdate(placeId, { placeName, description, image, type, location, links}, {new: true});
         res.status(201).json(updated);
         } catch (error) {
           next(error)

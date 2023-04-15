@@ -61,11 +61,11 @@ router.get('/creator/:creatorId',  isAuthenticated, async function (req, res, ne
     /* ROUTE /mates/create */
     /* TESTED ON POSTMAN - WORKING */
 router.post('/create', isAuthenticated, async function (req, res, next) {
-    const { type, image, genre, musicalGenre, musicalInstrument, location} = req.body;
+    const { type, image, genre, musicalGenre, musicalInstrument, location, links} = req.body;
     const creator = req.payload._id;
     
     try {
-      const createdMate = await Mate.create({type, image, genre, musicalGenre, musicalInstrument, location, creator: creator});
+      const createdMate = await Mate.create({type, image, genre, musicalGenre, musicalInstrument, location, links, creator: creator});
       res.status(200).json(createdMate);
     } catch (error) {
       next(error)
@@ -80,7 +80,7 @@ router.post('/create', isAuthenticated, async function (req, res, next) {
 router.put('/edit/:mateId', isAuthenticated, async function (req, res, next) {
   console.log('Backend in')
     const { mateId } = req.params;
-    const { type, image, genre, musicalGenre, musicalInstrument, location} = req.body;
+    const { type, image, genre, musicalGenre, musicalInstrument, location, links} = req.body;
     const creator = req.payload._id;
     try {
         // Get the Mate document by ID
@@ -91,7 +91,7 @@ router.put('/edit/:mateId', isAuthenticated, async function (req, res, next) {
         }
     
         // Update the Mate document with the data from the request body
-        const updated = await Mate.findByIdAndUpdate(mateId, {type, image, genre, musicalGenre, musicalInstrument, location}, { new: true });
+        const updated = await Mate.findByIdAndUpdate(mateId, {type, image, genre, musicalGenre, musicalInstrument, location, links}, { new: true });
     
         // Send back the updated Mate document as a JSON response
         res.status(201).json(updated);

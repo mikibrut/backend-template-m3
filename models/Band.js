@@ -28,6 +28,9 @@ const bandSchema = new Schema({
  location: {
    type: String,
    required: true
+ },
+ links:{
+   type: [String]
  }
  },
     {
