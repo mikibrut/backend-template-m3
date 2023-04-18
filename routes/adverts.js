@@ -87,11 +87,11 @@ router.delete('/:advertId',  isAuthenticated, async function (req, res, next){
 })
 
 
-/*--COMMENTSS---*/
+/*--COMMENTS---*/
 
 
 /* POST create new comment for an Advert */
-  /* ROUTE /comments/create */
+  /* ROUTE /adverts/:advertId/comments/create */
   /* TESTED ON POSTMAN - WORKING */
   router.post('/:advertId/comments/create', isAuthenticated, async function (req, res, next) {
     const { advertId } = req.params;

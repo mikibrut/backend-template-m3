@@ -30,17 +30,13 @@ router.get('/:mateId',  async function (req, res, next) {
     }
   });
 
-  router.post('/upload', isAuthenticated, fileUploader.single('image'), (req, res, next) => {
-    // console.log("file is: ", req.file)
-   
+
+   /* CLOUDINARY uploader route */
+router.post('/upload', isAuthenticated, fileUploader.single('image'), (req, res, next) => {
     if (!req.file) {
       next(new Error('No file uploaded!'));
       return;
     }
-    
-    // Get the URL of the uploaded file and send it as a response.
-    // 'fileUrl' can be any name, just make sure you remember to use the same when accessing it on the frontend
-    
     res.json({ fileUrl: req.file.path });
   });
 
@@ -72,8 +68,6 @@ router.post('/create', isAuthenticated, async function (req, res, next) {
     }
   });
 
-
-
     /* PUT edit MATE */
     /* ROUTE /mates/edit/:mateId */
     /* TESTED ON POSTMAN - WORKING */
@@ -83,17 +77,11 @@ router.put('/edit/:mateId', isAuthenticated, async function (req, res, next) {
     const { type, image, genre, musicalGenre, musicalInstrument, location, links} = req.body;
     const creator = req.payload._id;
     try {
-        // Get the Mate document by ID
         const mate = await Mate.findById(mateId);
-        // Check if the authenticated user is the creator of the Mate
         if (mate.creator.toString() !== creator) {
           return res.status(401).json({ message: 'Not authorized to edit this Mate' });
         }
-    
-        // Update the Mate document with the data from the request body
         const updated = await Mate.findByIdAndUpdate(mateId, {type, image, genre, musicalGenre, musicalInstrument, location, links}, { new: true });
-    
-        // Send back the updated Mate document as a JSON response
         res.status(201).json(updated);
       } catch (error) {
         next(error);
@@ -107,22 +95,15 @@ router.delete('/:mateId', isAuthenticated, async function (req, res, next){
     const { mateId } = req.params;
     const creator = req.payload._id;
     try {
-        // Get the Mate document by ID
         const mate = await Mate.findById(mateId);
-        // Check if the authenticated user is the creator of the Mate
         if (mate.creator.toString() !== creator) {
             return res.status(401).json({ message: 'Not authorized to delete this Mate' });
           }
-        // Delete the Mate document with the data from the matched Id
         const deletedMate = await Mate.findByIdAndDelete(mateId)
-
-        // Send back the updated Mate document as a JSON response
         res.status(201).json(deletedMate)
     } catch (error) {
         next(error)
     }
 })
-
-
 
 module.exports = router;

@@ -43,7 +43,5 @@ router.get('/:advertId', async function (req, res, next) {
     res.status(500).json({ message: 'Server error' });
   }
   });
-  
-  
 
   module.exports = router;

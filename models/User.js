@@ -15,11 +15,6 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  // userRole: {
-  //   type: [String],
-  //   enum: ['Mate', 'Band', 'Place'],
-  //   default: []
-  // },
 },
 {
   timestamps: true
