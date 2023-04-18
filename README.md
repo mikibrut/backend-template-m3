@@ -221,47 +221,47 @@ Comments in the database have the following properties:
 ## API endpoints and usage 
 
 | Action           | Method    | Endpoint             | Req.body                        | Private/Public |
-|------------------|-----------|----------------------|---------------------------------|-----------------|
+|------------------|-----------|----------------------|---------------------------------|----------------|
 | SIGN UP user     | POST      | /api/v1/auth/signup  | { username, email, password }   |    Public |                 
 | LOG IN user      | POST      | /api/v1/auth/login   | { email, password }             |    Public |                  
 | GET logged in user   | GET     | /api/v1/auth/me    |   | Private |
-|------------------|-----------|----------------------|---------------------------------|-----------------|
+|-|-|-|-|-|
 | GET Mates         | GET        | /api/v1/mates      |   | Public  |
 | GET One Mate      | GET        | /api/v1/mates/:mateId | {mateId} | Private |
 | GET Mates by creator | GET     | /api/v1/mates/creator/:creatorId | {creatorId} | Private |
 | POST Create Mate | POST        | /api/v1/mates/create | {body} |Private |
 | PUT Edit Mate    | PUT         | /api/v1/mates/edit/:mateId | {mateId, body} | Private |
 | DELETE Delete Mate | DELETE    | /api/v1/mates/:mateId    | {mateId} | Private |
-|------------------|-----------|----------------------|---------------------------------|-----------------|
+|-|-|-|-|-|
 | GET Bands         | GET        | /api/v1/bands      |   | Public  |
 | GET One Band      | GET        | /api/v1/bands/:bandId | {bandId} | Private |
 | GET Bands by creator | GET     | /api/v1/bands/creator/:creatorId | {creatorId} | Private |
 | POST Create Band | POST        | /api/v1/bands/create | {body} |Private |
 | PUT Edit Band    | PUT         | /api/v1/bands/edit/:bandId | {bandId, body} | Private |
 | DELETE Delete Band | DELETE    | /api/v1/bands/:bandId    | {bandId} | Private |
-|------------------|-----------|----------------------|---------------------------------|-----------------|
+|-|-|-|-|-|
 | GET Places         | GET        | /api/v1/places      |   | Public  |
 | GET One Place      | GET        | /api/v1/places/:placeId | {placeId} | Private |
 | GET Places  by creator | GET     | /api/v1/places/creator/:creatorId | {creatorId} | Private |
 | POST Create Place  | POST        | /api/v1/places/create | {body} |Private |
 | PUT Edit Place     | PUT         | /api/v1/places/edit/:placeId | {placeId, body} | Private |
 | DELETE Delete Place  | DELETE    | /api/v1/places/:placeId    | {placeId} | Private |
-|------------------|-----------|----------------------|---------------------------------|-----------------|
+|-|-|-|-|-|
 | GET Adverts         | GET        | /api/v1/adverts      |   | Public  |
 | GET One Advert      | GET        | /api/v1/adverts/:advertId | {advertId} | Private |
 | POST Create Advert  | POST        | /api/v1/adverts/create | {body} |Private |
 | PUT Edit Advert     | PUT         | /api/v1/adverts/edit/:advertId | {advertId, body} | Private |
 | DELETE Delete Advert  | DELETE    | /api/v1/adverts/:advertId    | {advertId} | Private |
 | POST Create Advert Comment | POST  | /api/v1/adverts/:advertId/comments/create | {advertId, body} | Private |
-|------------------|-----------|----------------------|---------------------------------|-----------------|
+|-|-|-|-|-|
 | GET Comments by Advert | GET   | /api/v1/comments/:advertId | {advertId} | Private |
 | DELETE Comment | DELETE  | /api/v1/comments/:commentId  | {commentId} | Private |
 ---
 
 ## Useful links
 
-- [Presentation slides]("https://docs.google.com/presentation/d/1V6tZabPJYY1sYqUBFBPSbMqYPy1HyildeBlgsUyq8OY/edit?usp=sharing")
-- [Frontend repository]("https://github.com/mikibrut/frontend-template-m3")
-- [Frontend deploy]("https://bandmates.netlify.app/")
-- [Deployed REST API]("https://fly.io/apps/bandmate")
+- [Presentation slides](https://docs.google.com/presentation/d/1V6tZabPJYY1sYqUBFBPSbMqYPy1HyildeBlgsUyq8OY/edit?usp=sharing)
+- [Frontend repository](https://github.com/mikibrut/frontend-template-m3)
+- [Frontend deploy](https://bandmates.netlify.app/)
+- [Deployed REST API](https://fly.io/apps/bandmate)
 
