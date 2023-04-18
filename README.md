@@ -215,6 +215,7 @@ Comments in the database have the following properties:
       type: Date,
       default: Date.now
     }
+```
 ---
 
 ## API endpoints and usage 
